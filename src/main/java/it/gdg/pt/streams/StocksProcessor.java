@@ -36,6 +36,7 @@ public class StocksProcessor implements Processor<String, String, String, Logari
 
             if(nonNull(prevPrice)){
                 val logarithmicReturn = LogarithmicReturn.builder()
+                        .ticker(ticker)
                         .prev(prevPrice)
                         .next(nextPrice)
                         .logReturn(Math.log(nextPrice / prevPrice))
@@ -46,6 +47,7 @@ public class StocksProcessor implements Processor<String, String, String, Logari
 
             }else {
                 val logarithmicReturn = LogarithmicReturn.builder()
+                        .ticker(ticker)
                         .next(nextPrice)
                         .build();
 
