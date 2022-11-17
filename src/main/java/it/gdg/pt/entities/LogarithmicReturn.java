@@ -2,12 +2,10 @@ package it.gdg.pt.entities;
 
 import lombok.*;
 
-import javax.persistence.Embeddable;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 
 @Entity
@@ -19,20 +17,12 @@ import java.time.LocalDate;
 @ToString
 public class LogarithmicReturn {
 
-    @EmbeddedId
-    private LogarithmicReturnId id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private Double prev;
     private Double next;
     private Double logReturn;
-
-    @Getter
-    @Setter
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @Embeddable
-    @ToString
-    public static class LogarithmicReturnId implements Serializable {
-        private String ticker;
-        private LocalDate date;
-    }
+    private LocalDateTime emitted_at;
+    private LocalDateTime inserted_at;
 }
