@@ -1,4 +1,4 @@
-package it.gdg.pt;
+package it.gdg.pt.boundaries;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
