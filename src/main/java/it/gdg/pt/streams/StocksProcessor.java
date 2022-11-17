@@ -27,33 +27,31 @@ public class StocksProcessor implements Processor<String, String, String, Logari
         val key  = record.key();
         val value = record.value();
 
-        if(nonNull(value) && !value.equals("null")){
-            val tickerDateKey = TickerDateKey.of(key);
-            val ticker = tickerDateKey.getTicker();
-            val date = tickerDateKey.getDate();
-            val nextPrice = Double.valueOf(value);
-            val prevPrice = store.get(ticker);
+        val tickerDateKey = TickerDateKey.of(key);
+        val ticker = tickerDateKey.getTicker();
+        val date = tickerDateKey.getDate();
+        val nextPrice = Double.valueOf(value);
+        val prevPrice = store.get(ticker);
 
-            if(nonNull(prevPrice)){
-                val logarithmicReturn = LogarithmicReturn.builder()
-                        .ticker(ticker)
-                        .prev(prevPrice)
-                        .next(nextPrice)
-                        .logReturn(Math.log(nextPrice / prevPrice))
-                        .build();
+        if(nonNull(prevPrice)){
+            val logarithmicReturn = LogarithmicReturn.builder()
+                    .ticker(ticker)
+                    .prev(prevPrice)
+                    .next(nextPrice)
+                    .logReturn(Math.log(nextPrice / prevPrice))
+                    .build();
 
-                store.put(ticker, nextPrice);
-                context.forward(record.withKey(key).withValue(logarithmicReturn));
+            store.put(ticker, nextPrice);
+            context.forward(record.withKey(key).withValue(logarithmicReturn));
 
-            }else {
-                val logarithmicReturn = LogarithmicReturn.builder()
-                        .ticker(ticker)
-                        .next(nextPrice)
-                        .build();
+        }else {
+            val logarithmicReturn = LogarithmicReturn.builder()
+                    .ticker(ticker)
+                    .next(nextPrice)
+                    .build();
 
-                store.put(ticker, nextPrice);
-                context.forward(record.withKey(key).withValue(logarithmicReturn));
-            }
+            store.put(ticker, nextPrice);
+            context.forward(record.withKey(key).withValue(logarithmicReturn));
         }
 
     }
