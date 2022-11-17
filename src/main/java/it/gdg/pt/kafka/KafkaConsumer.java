@@ -35,6 +35,7 @@ public class KafkaConsumer {
     public CompletionStage<Void> readAndSaveLogarithmicReturn(ConsumerRecord<String, String> record) {
         if(record.value() != null){
             val logarithmicReturn = deserialize(record.value(), LogarithmicReturn.class);
+            log.info("operationName=saveOrUpdateLogarithmicReturn logarithmicReturn={}", logarithmicReturn);
             logarithmicReturnControl.saveOrUpdate(logarithmicReturn);;
         }
         return CompletableFuture.completedFuture(null);
