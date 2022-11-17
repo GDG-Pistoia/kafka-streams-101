@@ -1,4 +1,4 @@
-package it.gdg.pt;
+package it.gdg.pt.boundaries;
 
 import org.eclipse.microprofile.health.HealthCheck;
 import org.eclipse.microprofile.health.HealthCheckResponse;
